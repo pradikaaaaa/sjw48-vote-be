@@ -35,8 +35,13 @@ func GetJumlahVote(c *gin.Context) {
 		return
 	}
 
-	data, err := service.GetJumlahVote(requestKodeVote)
+	data, status, err := service.GetJumlahVote(requestKodeVote)
 	if err != nil {
+
+		if status {
+			lib.ReturnToJson(c, http.StatusOK, "204", err.Error(), false)
+			return
+		}
 		// c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		lib.ReturnToJson(c, http.StatusInternalServerError, "500", "error : "+err.Error(), false)
 		return
