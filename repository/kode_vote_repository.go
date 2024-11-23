@@ -33,3 +33,14 @@ func GetJumlahVote(kodeVote string) (response model.KodeVote, err error) {
 	err = query.First(&response).Error
 	return response, err
 }
+
+func CheckKodeCount(id int) (response model.KodeVote, err error) {
+	db := config.DB
+
+	query := db.Table("kode_vote").
+		Select(`id "id", kode "kode", jumlah "jumlah"`).
+		Where("id = ?", id)
+
+	err = query.First(&response).Error
+	return response, err
+}

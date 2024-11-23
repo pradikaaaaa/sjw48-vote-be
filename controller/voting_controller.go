@@ -16,8 +16,12 @@ func VoteProcess(c *gin.Context) {
 		return
 	}
 
-	_, err := service.VotingProcess(requestVote)
+	status, err := service.VotingProcess(requestVote)
 	if err != nil {
+		if status {
+			lib.ReturnToJson(c, http.StatusOK, "204", err.Error(), false)
+			return
+		}
 		lib.ReturnToJson(c, http.StatusInternalServerError, "500", "error : "+err.Error(), false)
 		return
 	}
