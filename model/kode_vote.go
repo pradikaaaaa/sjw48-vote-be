@@ -1,11 +1,11 @@
 package model
 
 type KodeVote struct {
-	ID     uint   `json:"id"`
-	Kode   string `json:"kode"`
-	Jumlah int    `json:"jumlah"`
-	// CreatedAt *string
-	// UpdatedAt *string
+	ID        uint   `json:"id"`
+	Kode      string `json:"kode"`
+	Jumlah    int    `json:"jumlah"`
+	CreatedAt *string
+	UpdatedAt *string
 }
 
 type RequestVote struct {

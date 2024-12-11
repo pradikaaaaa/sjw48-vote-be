@@ -2,6 +2,7 @@ package service
 
 import (
 	"be-awards/config"
+	"be-awards/lib"
 	"be-awards/model"
 	"be-awards/repository"
 	"errors"
@@ -11,6 +12,7 @@ import (
 
 func AddKoteVote(request model.RequestVote) (response model.KodeVote, err error) {
 	tx := config.DB.Begin()
+	timeNow := lib.GetTimeNow("timestime")
 
 	for i := 0; i < request.Kuota; i++ {
 		var reqVote model.KodeVote
@@ -25,8 +27,10 @@ func AddKoteVote(request model.RequestVote) (response model.KodeVote, err error)
 
 			if !exists {
 				reqVote = model.KodeVote{
-					Kode:   kode,
-					Jumlah: request.JumlahVote,
+					Kode:      kode,
+					Jumlah:    request.JumlahVote,
+					CreatedAt: &timeNow,
+					UpdatedAt: &timeNow,
 				}
 				break
 			}
@@ -44,7 +48,6 @@ func AddKoteVote(request model.RequestVote) (response model.KodeVote, err error)
 }
 
 func GetJumlahVote(request model.RequestKodeVote) (response []model.KodeVote, status bool, err error) {
-
 	if !utils.CheckDuplicates(request.KodeVote) {
 		for _, vote := range request.KodeVote {
 			data, err := repository.GetJumlahVote(vote)
